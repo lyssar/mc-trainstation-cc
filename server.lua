@@ -28,6 +28,7 @@ then
     monitor.reloadPosition()
     station.setMonitor(monitor.getMonitor())
     station.render()
+    station.observeMonitor()
     return
 end
 
@@ -50,5 +51,6 @@ modem.registerChannels('server')
 -- Render Station
 station.setMonitor(monitor.getMonitor())
 station.render()
+station.observeMonitor()
 
 log.info("Server is running. Please configure your clients")
