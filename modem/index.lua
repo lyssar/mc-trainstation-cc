@@ -1,8 +1,10 @@
 require "_helper"
+local log = require "_logger"
+local settingsHelper = require "_settings"
 local modem = {} -- Namespace
 local possibleDirections = {'top', 'left', 'right', 'back'}
-local chosenPosition = ""
-local default = "top"
+local default = "back"
+local chosenPosition = settingsHelper.get("lystrain.modem.position", default)
 local userInputReaded = 0
 local activeModem
 
@@ -15,7 +17,7 @@ local function readUserInput()
             log.error("Enter a correct sender modem position [%s]:", chosenPosition)
         else 
             print("")
-            log.info("Enter sender modem position [%s]:", default)
+            log.info("Enter sender modem position [%s]:", chosenPosition)
         end
         chosenPosition = read()
         userInputReaded = 1
@@ -23,8 +25,10 @@ local function readUserInput()
 
     if(trim(chosenPosition) == "")
     then
-        chosenPosition = default
+        chosenPosition = settingsHelper.get("lystrain.modem.position", default)
     end
+
+    settingsHelper.add("lystrain.modem.position", chosenPosition)
 end
 
 function modem.chosePosition()
@@ -38,7 +42,7 @@ function modem.chosePosition()
 
         readUserInput()
         userInputReaded = 1
-    until (peripheral.isPresent(chosenPosition) == true)
+    until (peripheral.isPresent(chosenPosition) == true and peripheral.getType(chosenPosition) == "modem")
 end
 
 function modem.getChosenPosition()
@@ -46,7 +50,6 @@ function modem.getChosenPosition()
 end
 
 function modem.registerChannels()
-    shell.execute("clear")
     log.info("Register channels")
     activeModem = peripheral.wrap(chosenPosition)
     

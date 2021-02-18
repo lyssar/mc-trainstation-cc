@@ -1,5 +1,3 @@
-log = {};
-
 function trim(s)
     return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
@@ -18,37 +16,36 @@ function has_value (tab, val)
     return false
 end
 
-function log.msg(msg, type)
-    local color = colors.blue
-    local prefix = "[INFO]";
-
-    if type == "error"
-    then 
-        prefix = "[ERROR]"
-        color = colors.red
-    elseif type == "notice"
-    then
-        color = colors.yellow
-        prefix = "[NOTICE]"
+function explode(inputstr, sep)
+    if sep == nil then
+        sep = "%s"
     end
-
-    term.setTextColor(color)
-    term.write(prefix)
-    term.setTextColor(colors.white)
-    printf(" - %s", msg)
+    local t={}
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+        table.insert(t, str)
+    end
+    return t
 end
 
-function log.info(...)
-    local msg = string.format(...)
-    log.msg(msg, 'info')
+function printt(t, s)
+    for k, v in pairs(t) do
+        local kfmt = '["' .. tostring(k) ..'"]'
+        if type(k) ~= 'string' then
+            kfmt = '[' .. k .. ']'
+        end
+        local vfmt = '"'.. tostring(v) ..'"'
+        if type(v) == 'table' then
+            printt(v, (s or '')..kfmt)
+        else
+            if type(v) ~= 'string' then
+                vfmt = tostring(v)
+            end
+            print(type(t)..(s or '')..kfmt..' = '..vfmt)
+        end
+    end
 end
 
-function log.error(...)
-    local msg = string.format(...)
-    log.msg(msg, 'error')
-end
-
-function log.notice(...)
-    local msg = string.format(...)
-    log.msg(msg, 'notice')
-end
+function script_path()
+    local str = shell.getRunningProgram()
+    return str:match("(.*/)")
+ end
