@@ -13,5 +13,5 @@ if [[ "$OSTYPE" == "win32"* ]] || [[ "$OSTYPE" == "msys"* ]]
 then
     start "" "$CRAFT_OS" --mount-rw "lystrain"="$MOUNT"
 else
-    craftos --mount-rw "lystrain"="$MOUNT"
+    $CRAFT_OS --mount-rw "lystrain"="$MOUNT"
 fi
