@@ -19,6 +19,8 @@ local function readUserInput()
             print("")
             log.info("Enter monitor position [%s]:", chosenPosition)
         end
+
+        term.write("[>] ")
         chosenPosition = read()
         userInputReaded = 1
     until(trim(chosenPosition) == "" or has_value(possibleDirections, chosenPosition))
@@ -46,7 +48,19 @@ function monitor.chosePosition()
 end
 
 function monitor.getChosenPosition()
+    monitor.reloadPosition()
     return chosenPosition
 end 
+
+function monitor.reloadPosition()
+    if chosenPosition == nil
+    then
+        chosenPosition = settingsHelper.get("lystrain.monitor.position")
+    end
+end
+
+function monitor.getMonitor()
+    return peripheral.wrap(chosenPosition)
+end
 
 return monitor

@@ -10,12 +10,21 @@ then
 end
 
 function server.choseLabel()
+    local chosenLabel = ""
     repeat
         log.cmd("Enter a server label [%s]:", sLabel)
-        sLabel = read()
-    until (sLabel ~= nil)
+        term.write("[>] ")
+        chosenLabel = read()
+        if chosenLabel == "" and sLabel ~= ""
+        then
+            chosenLabel = sLabel
+        end
+    until (chosenLabel ~= "")
 
-    if sLabel ~= "" then settingsHelper.add("lystrain.server.label", sLabel); end
+    if chosenLabel ~= "" then
+        settingsHelper.add("lystrain.server.label", chosenLabel);
+        sLabel = chosenLabel
+    end
 end
 
 function server.setServerLabel()

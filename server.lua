@@ -3,12 +3,14 @@ settingsHelper = require "_settings"
 settingsHelper.load()
 
 local log = require "_logger"
-local modem = require "modem/index"
-local monitor = require "monitor/index"
-local server = require "server/index"
+local modem = require "modem/main"
+local monitor = require "monitor/main"
+local station = require "monitor/station"
+local server = require "server/main"
 
 args = {...}
 
+modem.setNs('server')
 
 if args[1] == "channels"
 then
@@ -19,6 +21,13 @@ elseif args[1] == "shutdown"
 then
     modem.chosePosition()
     modem.detach()
+    return
+elseif args[1] == "render"
+then
+    modem.reloadPosition()
+    monitor.reloadPosition()
+    station.setMonitor(monitor.getMonitor())
+    station.render()
     return
 end
 
@@ -36,6 +45,10 @@ settingsHelper.save()
 server.setServerLabel()
 
 -- Initial Modems
-modem.registerChannels()
+modem.registerChannels('server')
+
+-- Render Station
+station.setMonitor(monitor.getMonitor())
+station.render()
 
 log.info("Server is running. Please configure your clients")

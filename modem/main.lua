@@ -4,9 +4,10 @@ local settingsHelper = require "_settings"
 local modem = {} -- Namespace
 local possibleDirections = {'top', 'left', 'right', 'back'}
 local default = "back"
-local chosenPosition = settingsHelper.get("lystrain.modem.position", default)
+local chosenPosition = nil
 local userInputReaded = 0
 local activeModem
+local _ns
 
 
 local function readUserInput()
@@ -16,19 +17,22 @@ local function readUserInput()
             print("")
             log.error("Enter a correct sender modem position [%s]:", chosenPosition)
         else 
+            chosenPosition = settingsHelper.get("lystrain." .. _ns .. ".modem.position", default)
             print("")
             log.info("Enter sender modem position [%s]:", chosenPosition)
         end
+        
+        term.write("[>] ")
         chosenPosition = read()
         userInputReaded = 1
     until(trim(chosenPosition) == "" or has_value(possibleDirections, chosenPosition))
 
     if(trim(chosenPosition) == "")
     then
-        chosenPosition = settingsHelper.get("lystrain.modem.position", default)
+        chosenPosition = settingsHelper.get("lystrain." .. _ns .. ".modem.position", default)
     end
 
-    settingsHelper.add("lystrain.modem.position", chosenPosition)
+    settingsHelper.add("lystrain." .. _ns .. ".modem.position", chosenPosition)
 end
 
 function modem.chosePosition()
@@ -40,12 +44,13 @@ function modem.chosePosition()
             log.error("Make sure that a modem is present in '%s' position", chosenPosition)
         end
 
-        readUserInput()
+        readUserInput(ns)
         userInputReaded = 1
     until (peripheral.isPresent(chosenPosition) == true and peripheral.getType(chosenPosition) == "modem")
 end
 
 function modem.getChosenPosition()
+    modem.reloadPosition()
     return chosenPosition
 end
 
@@ -85,6 +90,17 @@ function modem.detach()
     log.notice("Detach modem from %s", chosenPosition)
     activeModem = nil
     chosenPosition = default
+end
+
+function modem.reloadPosition()
+    if chosenPosition == nil
+    then
+        chosenPosition = settingsHelper.get("lystrain." .. _ns .. ".modem.position")
+    end
+end
+
+function modem.setNs(ns)
+    _ns = ns
 end
 
 return modem
