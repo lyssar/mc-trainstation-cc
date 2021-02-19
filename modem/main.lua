@@ -19,7 +19,7 @@ local function readUserInput()
         else 
             chosenPosition = settingsHelper.get("lystrain." .. _ns .. ".modem.position", default)
             print("")
-            log.info("Enter sender modem position [%s]:", chosenPosition)
+            log.cmd("Enter sender modem position [%s]:", chosenPosition)
         end
         
         term.write("[>] ")
@@ -73,7 +73,7 @@ function modem.checkChannels()
     activeModem = peripheral.wrap(chosenPosition)
     
     for channelId = 1, 3 do
-        log.info("Channel %d open? %s", channelId, activeModem.isOpen(channelId))
+        log.cmd("Channel %d open? %s", channelId, activeModem.isOpen(channelId))
     end
 end
 

@@ -22,17 +22,17 @@ then
     modem.chosePosition()
     modem.detach()
     return
-elseif args[1] == "render"
+elseif args[1] == "observe"
 then
     modem.reloadPosition()
     monitor.reloadPosition()
     station.setMonitor(monitor.getMonitor())
     station.render()
-    station.observeMonitor()
+    server.initObserver()
     return
 end
 
-log.info("Starting train station server")
+log.cmd("Starting train station server")
 
 -- Get needed information from User
 server.choseLabel()
@@ -51,6 +51,5 @@ modem.registerChannels('server')
 -- Render Station
 station.setMonitor(monitor.getMonitor())
 station.render()
-station.observeMonitor()
-
-log.info("Server is running. Please configure your clients")
+log.cmd("Server is running. Please configure your clients")
+server.initObserver()

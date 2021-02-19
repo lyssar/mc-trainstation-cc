@@ -61,10 +61,8 @@ function handleStationChange(buttonInfo)
 end
 
 function station.observeMonitor()
-    while true do
-        event, side, x, y = os.pullEvent("monitor_touch")
-        buttonApi.checkxy(x, y)
-    end
+    event, side, x, y = os.pullEvent("monitor_touch")
+    buttonApi.checkxy(x, y)
 end
 
 function station.setMonitor(monitor)

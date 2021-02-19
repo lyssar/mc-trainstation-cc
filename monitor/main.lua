@@ -17,7 +17,7 @@ local function readUserInput()
             log.error("Enter a correct monitor position [%s]:", chosenPosition)
         else 
             print("")
-            log.info("Enter monitor position [%s]:", chosenPosition)
+            log.cmd("Enter monitor position [%s]:", chosenPosition)
         end
 
         term.write("[>] ")

@@ -8,7 +8,7 @@ local modem = require "modem/main"
 local client = require "client/main"
 
 
-log.info("Starting train station client")
+log.cmd("Starting train station client")
 
 -- Get needed information from User
 client.setNs('client' .. os.computerID())
@@ -26,4 +26,4 @@ client.setClientLabel()
 -- Initial Modems
 modem.registerChannels()
 
-log.info("Client is ready to recieve data.")
+log.cmd("Client is ready to recieve data.")
