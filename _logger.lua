@@ -30,6 +30,10 @@ function log.msg(msg, type)
     then
         color = colors.yellow
         prefix = "[NOTICE]"
+    elseif type == "debug"
+    then
+        color = colors.gray
+        prefix = "[DEBUG]"
     elseif type == "cmd"
     then
         color = colors.white
@@ -60,6 +64,11 @@ end
 function log.cmd(...)
     local msg = string.format(...)
     log.msg(msg, 'cmd')
+end
+
+function log.debug(...)
+    local msg = string.format(...)
+    log.msg(msg, 'debug')
 end
 
 return log

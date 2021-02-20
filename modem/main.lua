@@ -1,6 +1,7 @@
 require "_helper"
 local log = require "_logger"
 local settingsHelper = require "_settings"
+local buttonApi = require('monitor/buttonApi')
 local modem = {} -- Namespace
 local possibleDirections = {'top', 'left', 'right', 'back'}
 local default = "back"
@@ -92,6 +93,19 @@ function modem.detach()
     chosenPosition = default
 end
 
+function modem.resetSignals()
+    log.debug("reset signals")
+    buttonApi.resetButtons()
+    log.info("Transmit reset signal to clients")
+    modem.getModem().transmit(1, 2, {rest=true})
+end
+
+function modem.sendSignal(type)
+    log.debug("send a signal")
+    log.info("Transmit dispatch signal to clients")
+    modem.getModem().transmit(1, 2, {dispatch=type})
+end
+
 function modem.reloadPosition()
     if chosenPosition == nil
     then
@@ -101,6 +115,10 @@ end
 
 function modem.setNs(ns)
     _ns = ns
+end
+
+function modem.getModem()
+    return peripheral.wrap(modem.getChosenPosition())
 end
 
 return modem

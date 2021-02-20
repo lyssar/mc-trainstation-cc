@@ -1,27 +1,13 @@
 local buttonApi = require('monitor/buttonApi')
+local modem = require('modem/main')
 local settingsHelper = require "_settings"
+local log = require "_logger"
 local station = {...}
 local _monitor
 local offset = 2
 local headlineHeight = 2
 local maxPerRow = 3
-local buttons = {
-    {
-        name="sven",
-        dispatcher="to_sven",
-        station_label="Sven"
-    },
-    {
-        name="timo",
-        dispatcher="to_timo",
-        station_label="Timo"
-    },
-    {
-        name="kathrin",
-        dispatcher="to_kathrin",
-        station_label="Kathrin"
-    }
-}
+local buttons = config.stations
 
 function station.render()
     buttonApi.setMonitor(_monitor)
@@ -44,7 +30,16 @@ function station.render()
 
     -- while true do
     for index, buttonData in pairs(buttons) do
-        buttonApi.setTable(buttonData['station_label'], handleStationChange, buttonData, math.floor(leftStart), math.floor(leftStop), math.floor(topStart), math.floor(topStop))
+        buttonApi.setTable(
+            buttonData['name'],
+            buttonData['station_label'],
+            handleStationChange,
+            buttonData,
+            math.floor(leftStart),
+            math.floor(leftStop),
+            math.floor(topStart),
+            math.floor(topStop)
+        )
 
         if math.fmod(index, maxPerRow) == 0 then topStart = topStart + buttonHeight + offset; end
         leftStart = leftStop + offset
@@ -56,8 +51,11 @@ function station.render()
 end
 
 function handleStationChange(buttonInfo)
-    print('Called')
-    printt(buttonInfo)
+    log.debug("station change emitted")
+    modem.resetSignals()
+    -- station.sendSignal(buttonInfo.dispatcher)
+    buttonApi.setButton(buttonInfo.name, true)
+    modem.sendSignal(buttonInfo.dispatcher)
 end
 
 function station.observeMonitor()
