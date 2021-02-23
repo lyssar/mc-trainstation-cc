@@ -1,4 +1,3 @@
-require "_helper"
 local gistID = "a67defc89b42f1dd4bbde07d9f5c000b"
 local gistFileName = "installer.lua"
 
