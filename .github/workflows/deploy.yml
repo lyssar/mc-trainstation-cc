@@ -12,6 +12,6 @@
           uses: exuanbo/actions-deploy-gist@v1
           with:
             token: ${{ secrets.TOKEN }}
-            gist_id: ${{ secrets.GIST_URI }}
+            gist_id: ${{ secrets.GIST_ID }}
             gist_file_name: "installer.lua"
             file_path: ./pastebin/installer.lua
