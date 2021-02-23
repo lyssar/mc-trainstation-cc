@@ -17,7 +17,7 @@ This repository contains a set of server/client logic written in lua to handle s
 
 Run the installer via the `pastebin` command:
     
-`pastebin run https://pastebin.com/PL6H7aqe lystrain` 
+`pastebin run PL6H7aqe lystrain` 
 
 ### Folder structure
 
