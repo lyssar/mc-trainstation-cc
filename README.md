@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="logo.svg" style="width: 50%">
+    <img src="logo.svg" style="width: 25%">
 </p>
 
 # Minecraft CC - Trainstation
