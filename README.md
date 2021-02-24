@@ -20,20 +20,20 @@ Run the installer via the `pastebin` command:
 `pastebin run PL6H7aqe lystrain` 
 
 ### Folder structure
-
 ```
-lystrain/        # Root directory.
-|- client/       # Client logic
-|- modem/        # Wireless modem logic
-|- monitor/      # Touchscreen logic
-|- pastebin/     # Installer code
-|- server/       # Server logic
-|- _*            # General gelper files
-|- .craftos.sh   # Script for craftof-pc local developing
-|- .env.dist     # ENV for local development
-|- config.lua    # Application config
-|- client.lua    # Actual client
-|- server.lua    # Actual server
+lystrain                # Root directory.
+ ┣ client/              # Client logic
+ ┣ modem/               # Wireless modem logic
+ ┣ monitor/             # Touchscreen logic
+ ┣ server/              # Server logic
+ ┣ .craftos.sh          # Script for craftof-pc local developing
+ ┣ .env.dist            # ENV for local development
+ ┣ _*                   # General gelper files
+ ┣ client.lua           # Actual client
+ ┣ config.lua           # Application config
+ ┣ installer.lua        # Installer, which is hosted on gist.github.com
+ ┣ pastebin.lua         # Pastebin wrapper for easier usage in minecraft
+ ┗ server.lua           # Actual server
 ```
 
 ### Setup you stations
