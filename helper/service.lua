@@ -1,12 +1,15 @@
-function trim(s)
+--- @module helper.service
+local HelperService = {}
+
+function HelperService:trim(s)
     return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
 
-function printf(...)
+function HelperService:printf(...)
     print(string.format(...))
 end
 
-function has_value (tab, val)
+function HelperService:has_value (tab, val)
     for index, tabName in ipairs(tab) do
         if tabName == val then
             return true
@@ -16,7 +19,7 @@ function has_value (tab, val)
     return false
 end
 
-function explode(inputstr, sep)
+function HelperService:explode(inputstr, sep)
     if sep == nil then
         sep = "%s"
     end
@@ -27,7 +30,7 @@ function explode(inputstr, sep)
     return t
 end
 
-function printt(t, s)
+function HelperService:printt(t, s)
     for k, v in pairs(t) do
         local kfmt = '["' .. tostring(k) ..'"]'
         if type(k) ~= 'string' then
@@ -35,7 +38,7 @@ function printt(t, s)
         end
         local vfmt = '"'.. tostring(v) ..'"'
         if type(v) == 'table' then
-            printt(v, (s or '')..kfmt)
+            HelperService:printt(v, (s or '')..kfmt)
         else
             if type(v) ~= 'string' then
                 vfmt = tostring(v)
@@ -45,7 +48,17 @@ function printt(t, s)
     end
 end
 
-function script_path()
+function HelperService:script_path()
     local str = shell.getRunningProgram()
     return str:match("(.*/)")
- end
+end
+
+setmetatable(HelperService, {
+    __call = function()
+        local self = {}
+        setmetatable(self, { __index = HelperService })
+        return self
+    end
+})
+
+return HelperService;

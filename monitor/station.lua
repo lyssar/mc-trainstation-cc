@@ -1,18 +1,28 @@
-local buttonApi = require('monitor/buttonApi')
-local modem = require('modem/main')
-local settingsHelper = require "_settings"
-local log = require "_logger"
-local station = {...}
+--- @module monitor.station
+local StationService = {}
+
+local ButtonApi = require("monitor.buttonApi")
+local ModemService = require("modem.service")
+local Settings = require("helper.settings")
+local Log = require("helper.log")
 local _monitor
 local offset = 2
 local headlineHeight = 2
 local maxPerRow = 3
 local buttons = config.stations
 
-function station.render()
-    buttonApi.setMonitor(_monitor)
-    buttonApi.prepareMonitor(_monitor)
-    buttonApi.heading(settingsHelper.get("lystrain.server.label", ""), offset)
+local function handleStationChange(buttonInfo)
+    Log:debug("station change emitted")
+    ModemService:resetSignals()
+    -- StationService:sendSignal(buttonInfo.dispatcher)
+    ButtonApi:setButton(buttonInfo.name, true)
+    ModemService:sendSignal(buttonInfo.dispatcher)
+end
+
+function StationService:render()
+    ButtonApi:setMonitor(_monitor)
+    ButtonApi:prepareMonitor(_monitor)
+    ButtonApi:heading(Settings:get("lystrain.server.label", ""), offset)
 
     local buttonAmount = table.getn(buttons)
     local panWidth, panHeight = _monitor.getSize()
@@ -30,7 +40,7 @@ function station.render()
 
     -- while true do
     for index, buttonData in pairs(buttons) do
-        buttonApi.setTable(
+        ButtonApi:setTable(
             buttonData['name'],
             buttonData['station_label'],
             handleStationChange,
@@ -47,24 +57,24 @@ function station.render()
         topStop = topStart + buttonHeight
     end
 
-    buttonApi.screen()
+    ButtonApi:screen()
 end
 
-function handleStationChange(buttonInfo)
-    log.debug("station change emitted")
-    modem.resetSignals()
-    -- station.sendSignal(buttonInfo.dispatcher)
-    buttonApi.setButton(buttonInfo.name, true)
-    modem.sendSignal(buttonInfo.dispatcher)
-end
-
-function station.observeMonitor()
+function StationService:observeMonitor()
     event, side, x, y = os.pullEvent("monitor_touch")
-    buttonApi.checkxy(x, y)
+    ButtonApi:checkxy(x, y)
 end
 
-function station.setMonitor(monitor)
+function StationService:setMonitor(monitor)
     _monitor = monitor
 end
 
-return station
+setmetatable(StationService, {
+    __call = function()
+        local self = {}
+        setmetatable(self, { __index = StationService })
+        return self
+    end
+})
+
+return StationService

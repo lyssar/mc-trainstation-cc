@@ -1,0 +1,13 @@
+{
+  "name": "mc-trainstation-cc",
+  "version": "1.0.0",
+  "repository": "git@github.com:lyssar/mc-trainstation-cc.git",
+  "author": "Sebastian Hens <devmaint@cefurox.de>",
+  "license": "MIT",
+  "dependencies": {
+    "luabundle": "^1.6.0"
+  },
+  "scripts": {
+    "bundle": "node bundle.js"
+  }
+}

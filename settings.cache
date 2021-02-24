@@ -1,0 +1,12 @@
+{
+  [ "lystrain.server.modem.position" ] = "top",
+  [ "lystrain.server.label" ] = "Trainstation",
+  [ "lystrain.client1.modem.position" ] = "right",
+  [ "lystrain.monitor.position" ] = "left",
+  [ "lystrain.client2.modem.position" ] = "right",
+  [ "lystrain.client.label" ] = "ClientA",
+  [ "lystrain.client1.client.label" ] = "ClientA",
+  [ "lystrain.client2.label" ] = "ClientB",
+  [ "lystrain.client1.label" ] = "ClientA",
+  [ "lystrain.client2.client.label" ] = "ClientB",
+}

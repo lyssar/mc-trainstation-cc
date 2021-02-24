@@ -1,5 +1,8 @@
-local config = require("config")
-local log = {...}
+--- @module helper.log
+local Log = {}
+
+local Helper = require("helper.service")
+local Config = require("config")
 
 local logLvl = {
     cmd = -1,
@@ -11,10 +14,10 @@ local logLvl = {
     all = 50
 }
 
-function log.msg(msg, type)
+function Log:msg(msg, type)
     local color = colors.blue
     local prefix = "[INFO]";
-    local allowedLogLevel = logLvl[config.LOG_LEVEL]
+    local allowedLogLevel = logLvl[Config.LOG_LEVEL]
     local givenLogLevel = logLvl[type]
 
     if givenLogLevel == nil or allowedLogLevel < givenLogLevel
@@ -23,10 +26,10 @@ function log.msg(msg, type)
     end
 
     if type == "error"
-    then 
+    then
         prefix = "[ERROR]"
         color = colors.red
-    elseif type == "notice"
+    elseif type == "Helpernotice"
     then
         color = colors.yellow
         prefix = "[NOTICE]"
@@ -43,32 +46,40 @@ function log.msg(msg, type)
     term.setTextColor(color)
     term.write(prefix)
     term.setTextColor(colors.white)
-    printf(" %s", msg)
+    Helper:printf(" %s", msg)
 end
 
-function log.info(...)
+function Log:info(...)
     local msg = string.format(...)
-    log.msg(msg, 'info')
+    Log:msg(msg, 'info')
 end
 
-function log.error(...)
+function Log:error(...)
     local msg = string.format(...)
-    log.msg(msg, 'error')
+    Log:msg(msg, 'error')
 end
 
-function log.notice(...)
+function Log:notice(...)
     local msg = string.format(...)
-    log.msg(msg, 'notice')
+    Log:msg(msg, 'notice')
 end
 
-function log.cmd(...)
+function Log:cmd(...)
     local msg = string.format(...)
-    log.msg(msg, 'cmd')
+    Log:msg(msg, 'cmd')
 end
 
-function log.debug(...)
+function Log:debug(...)
     local msg = string.format(...)
-    log.msg(msg, 'debug')
+    Log:msg(msg, 'debug')
 end
 
-return log
+setmetatable(Log, {
+    __call = function()
+        local self = {}
+        setmetatable(self, { __index = Log })
+        return self
+    end
+})
+
+return Log;

@@ -1,11 +1,11 @@
-require "_helper"
-settingsHelper = require "_settings"
+require "_helper.lua"
+settingsHelper = require "_settings.lua"
 settingsHelper.load()
 
 
-local log = require "_logger"
-local modem = require "modem/main"
-local client = require "client/main"
+local log = require "_logger.lua"
+local modem = require "modem/main.lua"
+local client = require "client/main.lua"
 
 
 log.cmd("Starting train station client")
