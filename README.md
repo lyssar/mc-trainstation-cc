@@ -4,8 +4,8 @@
 
 # Minecraft CC - Trainstation
 ![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg)
-![get-cc-tweaked](http://cf.way2muchnoise.eu/title/282001_Get_Today!.svg)
-![available-for](http://cf.way2muchnoise.eu/versions/282001_latest.svg)
+[![get-cc-tweaked](http://cf.way2muchnoise.eu/title/282001_Get_Today!.svg)](https://minecraft.curseforge.com/projects/282001)
+[![available-for](http://cf.way2muchnoise.eu/versions/282001_latest.svg)](https://www.minecraft.net/)
 
 ## Description
 
