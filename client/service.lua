@@ -30,6 +30,34 @@ function ClientService:choseLabel()
     end
 end
 
+function ClientService:initObserver()
+    local ctrlKey = false
+    Log:info("Start event observing [ctrl+c to terminate]")
+    while true do
+        local event, p1,p2,p3 = os.pullEvent()
+        -- Monitor Observer
+
+        -- kill observer ctrl+c handler
+        if event == "key" or event == "key_up" then
+            -- trag if ctrlKey is pressed
+            if event == "key" and (p1 == 29 or p1 == 157) then ctrlKey = true; end
+            -- trag if ctrlKey is released
+            if event == "key_up" and (p1 == 29 or p1 == 157) then ctrlKey = false; end
+            -- cancel oberserver on ctrl + c press            
+            if event == "key" and p1 == 46 and ctrlKey == true then
+                ctrlKey = false
+                ButtonApi:clearTable()
+                Log:info("Stop event observing. To start again call `server observe`")
+                return;
+            end
+        else
+            print(event)
+        end
+    end
+end
+
+
+
 function ClientService:setClientLabel()
     Log:info("Set client label to %s", sLabel)
     os.setComputerLabel(sLabel)

@@ -24,6 +24,7 @@ function ClientApp:run()
     ModemService:registerChannels()
 
     Log:cmd("Client is ready to recieve data.")
+    ClientService:initObserver()
 end
 
 setmetatable(ClientApp, {
