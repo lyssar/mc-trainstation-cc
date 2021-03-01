@@ -29,7 +29,7 @@ local function readUserInput()
         term.write("[>] ")
         chosenPosition = read()
         userInputReaded = 1
-    until(Helper:trim(chosenPosition) == "" or has_value(possibleDirections, chosenPosition))
+    until(Helper:trim(chosenPosition) == "" or Helper:has_value(possibleDirections, chosenPosition))
 
     if(Helper:trim(chosenPosition) == "")
     then

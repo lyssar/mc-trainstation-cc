@@ -8,8 +8,6 @@ local possibleDirections = {'top', 'left', 'right', 'back'}
 local default = "back"
 local chosenPosition = Settings:get("lystrain.monitor.position", default)
 local userInputReaded = 0
-local monitor
-
 
 local function readUserInput()
     repeat

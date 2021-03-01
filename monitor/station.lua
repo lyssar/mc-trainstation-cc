@@ -60,11 +60,6 @@ function StationService:render()
     ButtonApi:screen()
 end
 
-function StationService:observeMonitor()
-    event, side, x, y = os.pullEvent("monitor_touch")
-    ButtonApi:checkxy(x, y)
-end
-
 function StationService:setMonitor(monitor)
     _monitor = monitor
 end

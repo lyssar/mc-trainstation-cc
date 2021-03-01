@@ -1,10 +1,20 @@
 --- @module client.service
 local ClientService = {}
-
+local ModemService = require("modem.service")
 local Settings = require("helper.settings")
 local Log = require("helper.log")
+local Helper = require("helper.service")
 local sLabel = nil
 local _ns = nil
+
+
+local function handleModemMessage(message)
+    if message and message.reset == true then
+        Log:info("Reset client")
+    elseif message and message.dispatch ~= nil and  message.dispatch ~= "" then
+        Log:info("Message dispatch for [%s]", message.dispatch)
+    end
+end
 
 function ClientService:choseLabel()
     local chosenLabel = ""
@@ -34,8 +44,11 @@ function ClientService:initObserver()
     local ctrlKey = false
     Log:info("Start event observing [ctrl+c to terminate]")
     while true do
-        local event, p1,p2,p3 = os.pullEvent()
-        -- Monitor Observer
+        local event, p1,p2,p3,p4 = os.pullEvent()
+        -- Modem Observer
+        if event == "modem_message" then
+            handleModemMessage(p4)
+        end
 
         -- kill observer ctrl+c handler
         if event == "key" or event == "key_up" then
@@ -46,12 +59,9 @@ function ClientService:initObserver()
             -- cancel oberserver on ctrl + c press            
             if event == "key" and p1 == 46 and ctrlKey == true then
                 ctrlKey = false
-                ButtonApi:clearTable()
                 Log:info("Stop event observing. To start again call `server observe`")
                 return;
             end
-        else
-            print(event)
         end
     end
 end
