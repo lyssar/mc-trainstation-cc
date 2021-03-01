@@ -1,5 +1,6 @@
 .env
 settings.ini
+settings.cache
 test
 dist
 
